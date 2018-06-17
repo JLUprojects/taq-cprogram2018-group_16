@@ -171,7 +171,7 @@ char pop_stack2(char *stack,long int *top)
 long int compare_priority(char *str,char *stack2,long int *top2,long int *stack1,long int *top1)
 /* Description: compare the priority of the operators and push and pop element from the stack */
 {
-    long int num,num1,total;
+    long int num1,num2,total;
     char c;
     if(*str == '\0')
     {
@@ -191,9 +191,9 @@ long int compare_priority(char *str,char *stack2,long int *top2,long int *stack1
         c = pop_stack2(stack2,top2); // pop a operator from the top of stack2(stack that store the operators)
         while(c != '(')
         {
-            num = pop_stack1(stack1,top1); // pop a number from the top of stack1(stack that store the numbers)
-            num1 = pop_stack1(stack1,top1); // pop another number from the top of stack1
-            total = calculate(num1,num,c);// assign the calculation result to total
+            num1 = pop_stack1(stack1,top1); // pop a number from the top of stack1(stack that store the numbers)
+            num2 = pop_stack1(stack1,top1); // pop another number from the top of stack1
+            total = calculate(num2,num1,c);// assign the calculation result to total
             push_stack1(stack1,&total,top1);// push "total" into stack1
             c = pop_stack2(stack2,top2);
         }
@@ -209,18 +209,18 @@ long int compare_priority(char *str,char *stack2,long int *top2,long int *stack1
             push_stack2(stack2,str,top2);
             return SUCCESS;
         }
-        num = priority(c);
-        num1 = priority(*str);
-        if(num1 >= num) // push the operator into the stack2 (operator stack) when the priority of the character is high than that of the top element
+        num1 = priority(c);
+        num2 = priority(*str);
+        if(num2 >= num) // push the operator into the stack2 (operator stack) when the priority of the character is high than that of the top element
         {
             push_stack2(stack2,&c,top2);
             push_stack2(stack2,str,top2);
         }
         else
         {
-            num = pop_stack1(stack1,top1);
             num1 = pop_stack1(stack1,top1);
-            total = calculate(num1,num,c);
+            num2 = pop_stack1(stack1,top1);
+            total = calculate(num2,num1,c);
             push_stack1(stack1,&total,top1);
             compare_priority(str,stack2,top2,stack1,top1);
             // pick 2 numbers from the top of stack1 and 1 operator from the top of stack2 and calculate and save the result to the number stack.
@@ -237,7 +237,7 @@ long int compare_priority(char *str,char *stack2,long int *top2,long int *stack1
 
 long int cal(char * exp) {
 /* Description: calculate given exp(char *)*/
-    long int num,num1 = -1;
+    long int num1,num2 = -1;
     long int total = -1;
     char c;
     char *dest = (char *)malloc(sizeof(100));
@@ -265,8 +265,8 @@ long int cal(char * exp) {
             *temp = '\0'; // add '\0' to the number string
             temp = dest;
 
-            num = atoi(dest); // turn string to int for example: "328" => 328 (int)
-            push_stack1(stack1, &num, &top1);
+            num1 = atoi(dest); // turn string to int for example: "328" => 328 (int)
+            push_stack1(stack1, &num1, &top1);
         }
 
         if (compare_priority(exp, stack2, &top2, stack1, &top1) == FAIL)
@@ -287,10 +287,10 @@ long int cal(char * exp) {
         if (top1 == -1) {
           return -1;
         }
-        num = pop_stack1(stack1, &top1);
         num1 = pop_stack1(stack1, &top1);
+        num2 = pop_stack1(stack1, &top1);
         c = pop_stack2(stack2, &top2);
-        total = calculate(num1, num, c);
+        total = calculate(num2, num1, c);
         push_stack1(stack1, &total, &top1); // pick 2 numbers from the top of stack1 and 1 operator from the top of stack2 and calculate and save the result to the number stack until the operator stack is NULL
     }
     return total;
