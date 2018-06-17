@@ -77,7 +77,7 @@ long int priority(char c)
     return 0;
 }
 
-void initialize_stack(long int *stack,long int *top)
+void init_stack1(long int *stack,long int *top)
 /* Description: initialize the ordered stack */
 {
     long int i;
@@ -87,7 +87,7 @@ void initialize_stack(long int *stack,long int *top)
     }
     *top = -1;
 }
-void initialize_stack2(char *stack,long int *top)
+void init_stack2(char *stack,long int *top)
 /* Description: initialize the stack used to store operator */
 {
     long int i;
@@ -119,7 +119,7 @@ long int is_stack_empty(long int *top)
 }
 
 
-long int push_stack(long int *stack,long int *num,long int *top)
+long int push_stack1(long int *stack,long int *num,long int *top)
 /* Description: Push "num"(long int) into the "stack" */
 {
     if(is_stack_full(top) == STACK_FULL)
@@ -143,7 +143,7 @@ long int push_stack2(char *stack,char *c,long int *top)
     return PUSH_SUCCESS;
 }
 
-long int pop_stack(long int *stack,long int *top)
+long int pop_stack1(long int *stack,long int *top)
 /* Description: Pop the top element(long int) out of "stack" */
 {
     long int num;
@@ -191,10 +191,10 @@ long int compare_priority(char *str,char *stack2,long int *top2,long int *stack1
         c = pop_stack2(stack2,top2); // pop a operator from the top of stack2(stack that store the operators)
         while(c != '(')
         {
-            num = pop_stack(stack1,top1); // pop a number from the top of stack1(stack that store the numbers)
-            num1 = pop_stack(stack1,top1); // pop another number from the top of stack1
+            num = pop_stack1(stack1,top1); // pop a number from the top of stack1(stack that store the numbers)
+            num1 = pop_stack1(stack1,top1); // pop another number from the top of stack1
             total = calculate(num1,num,c);// assign the calculation result to total
-            push_stack(stack1,&total,top1);// push "total" into stack1
+            push_stack1(stack1,&total,top1);// push "total" into stack1
             c = pop_stack2(stack2,top2);
         }
     }
@@ -218,10 +218,10 @@ long int compare_priority(char *str,char *stack2,long int *top2,long int *stack1
         }
         else
         {
-            num = pop_stack(stack1,top1);
-            num1 = pop_stack(stack1,top1);
+            num = pop_stack1(stack1,top1);
+            num1 = pop_stack1(stack1,top1);
             total = calculate(num1,num,c);
-            push_stack(stack1,&total,top1);
+            push_stack1(stack1,&total,top1);
             compare_priority(str,stack2,top2,stack1,top1);
             // pick 2 numbers from the top of stack1 and 1 operator from the top of stack2 and calculate and save the result to the number stack.
             // and then continue to compare recursively
@@ -249,8 +249,8 @@ long int cal(char * exp) {
     char stack2[MAX_SIZE]; // operator stack
     long int top2;
 
-    initialize_stack(stack1, &top1);
-    initialize_stack2(stack2, &top2); // initialize these stacks
+    init_stack1(stack1, &top1);
+    init_stack2(stack2, &top2); // initialize these stacks
 
     while(*exp != '\0')
     {
@@ -266,7 +266,7 @@ long int cal(char * exp) {
             temp = dest;
 
             num = atoi(dest); // turn string to int for example: "328" => 328 (int)
-            push_stack(stack1, &num, &top1);
+            push_stack1(stack1, &num, &top1);
         }
 
         if (compare_priority(exp, stack2, &top2, stack1, &top1) == FAIL)
@@ -287,11 +287,11 @@ long int cal(char * exp) {
         if (top1 == -1) {
           return -1;
         }
-        num = pop_stack(stack1, &top1);
-        num1 = pop_stack(stack1, &top1);
+        num = pop_stack1(stack1, &top1);
+        num1 = pop_stack1(stack1, &top1);
         c = pop_stack2(stack2, &top2);
         total = calculate(num1, num, c);
-        push_stack(stack1, &total, &top1); // pick 2 numbers from the top of stack1 and 1 operator from the top of stack2 and calculate and save the result to the number stack until the operator stack is NULL
+        push_stack1(stack1, &total, &top1); // pick 2 numbers from the top of stack1 and 1 operator from the top of stack2 and calculate and save the result to the number stack until the operator stack is NULL
     }
     return total;
 }

@@ -19,7 +19,7 @@ enum usu
 long int calculate(long int num1,long int num2,char c);
 long int cal(char * exp);
 long int priority(char c);
-<<<<<<< HEAD
+
 void init_stack1(long int *stack,long int *top);
 void init_stack2(char *stack,long int *top);
 long int is_stack_full(long int *top);
@@ -27,15 +27,6 @@ long int is_stack_empty(long int *top);
 long int push_stack1(long int *stack,long int *num,long int *top);
 long int push_stack2(char *stack,char *c,long int *top);
 long int pop_stack1(long int *stack,long int *top);
-=======
-void initialize_stack(long int *stack,long int *top);
-void initialize_stack2(char *stack,long int *top);
-long int is_stack_full(long int *top);
-long int is_stack_empty(long int *top);
-long int push_stack(long int *stack,long int *num,long int *top);
-long int push_stack2(char *stack,char *c,long int *top);
-long int pop_stack(long int *stack,long int *top);
->>>>>>> 607e9570eac416cd6652f637cfde51da8dd53224
 char pop_stack2(char *stack,long int *top);
 long int compare_priority(char *str,char *stack2,long int *top2,long int *stack1,long int *top1);
 
