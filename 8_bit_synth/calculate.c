@@ -211,7 +211,7 @@ long int compare_priority(char *str,char *stack2,long int *top2,long int *stack1
         }
         num1 = priority(c);
         num2 = priority(*str);
-        if(num2 >= num) // push the operator into the stack2 (operator stack) when the priority of the character is high than that of the top element
+        if(num2 >= num1) // push the operator into the stack2 (operator stack) when the priority of the character is high than that of the top element
         {
             push_stack2(stack2,&c,top2);
             push_stack2(stack2,str,top2);
